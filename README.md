@@ -52,6 +52,48 @@ cursor-blink = true
 
 ---
 
+### Git repository colors in `ls`
+
+The Bash aliases in `shell/aliases.bash` wrap eza and highlight Git repository
+folder names in **bold green**. Ordinary folders keep their existing colors and
+all icons stay the same. This detects `.git` directories and worktree `.git`
+files; it does not require a GitHub remote or network access. Subdirectories
+inside a repository are not highlighted unless they are repository roots too.
+
+On each machine, install **Bash, Python 3, Git, and eza**, clone this repo, and add
+this line at the **end** of `~/.bashrc` (adjust the clone location if needed):
+
+```bash
+source "$HOME/repos/dev-tools/shell/aliases.bash"
+```
+
+Open a new terminal or run `source ~/.bashrc`. The aliases are `ls` (normal
+listing), `ll` (long), `la` (long with hidden entries), and `lt` (tree).
+Pulling updates to this clone updates the wrapper; source `~/.bashrc` again
+after changes to the aliases. Keep the clone in place after enabling it.
+
+```bash
+ls ~/repos
+ll ~/repos
+lt --level=2 ~/repos
+ls --color=never ~/repos
+```
+
+The wrapper preserves eza arguments and exit status. Colors are enabled in a
+terminal and disabled in pipes unless explicitly requested with `--color=always`.
+`NO_COLOR` disables colors by default; explicit `--color=always` overrides it.
+`--color=never` disables highlighting. Use `command eza` directly
+to bypass the wrapper. A folder named `home` gets eza's house icon because of its
+name, regardless of whether it is a repository.
+
+Run the integration checks with the installed dependencies:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+---
+
 ### 🔤 Font — Nerd Font (JetBrains Mono)
 
 Required for icons, powerline glyphs, and modern prompts.
